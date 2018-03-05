@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block styles %}
+<link rel="stylesheet" href="{% static 'catalog/table_styles.css' %}">
+{% endblock %}
+
+{% block scripts %}
+  <script type="text/javascript" src="{% static 'catalog/jquery-latest.js' %}"></script>
+  <script type="text/javascript" src="{% static 'catalog/jquery.tablesorter.js' %}"></script>
+
+  <script>
+  $(document).ready(function(){
+    $("#myTable").tablesorter( {sortList: [[3,1]]} );
+  });
+  </script>
+
+{% endblock %}
+
+{% block content %}
+
+<h1>Active Listings</h1>
+
+{% if ad_list %}
+<table id="myTable" class="table tablesorter">
+<thead>
+  <tr>
+    <th><strong>Ad</strong></th>
+    <th><strong>Price</strong></th>
+    <th><strong>Location</strong></th>
+    <th><strong>Date Posted</strong></th>
+  </tr>
+</thead>
+<tbody>
+  {% for ad in ad_list %}
+  <tr>
+    <td><a href="{{ ad.get_absolute_url }}">{{ ad.title }}</a></td>
+    <td>${{ad.price}}</td>
+    <td >{{ad.location}}</td>
+    <td>{{ad.create_date}}</td>
+  </tr>
+  {% endfor %}
+</tbody>
+</table>
+{% else %}
+  <p>There are no ads!!</p>
+{% endif %}
+
+{% endblock %}

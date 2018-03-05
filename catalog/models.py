@@ -1,0 +1,88 @@
+from django.db import models
+import uuid # To create unique ad instances
+from django.urls import reverse #Used to generate URLs by reversing the URL patterns
+
+from django.contrib.auth.models import User
+from django.contrib import admin
+
+# Model representing category for tool (e.g. Moving, Gardening, Home Renovation, etc.)
+class Category(models.Model):
+    CATEGORY_CHOICES = (
+        ('Other', 'Other'),
+        ('Home Renovation', 'Home Renovation'),
+        ('Gardening', 'Gardening'),
+        ('Power Tools', 'Power Tools'),
+        ('Moving', 'Moving'),
+        ('Garage', 'Garage'),
+        ('Washroom', 'Washroom'),
+    )
+
+    category_name = models.CharField(max_length=20, choices=CATEGORY_CHOICES, blank=True, default='Other', help_text="Choose a cateogry (e.g. Moving, Gardening etc.)")
+
+    def __str__(self):
+        return self.category_name
+
+    class Meta:
+        verbose_name_plural = 'Categories'
+
+# Model representing Ads that users can create
+class Ad(models.Model):
+    title = models.CharField(max_length=100)
+    description = models.CharField(max_length=1000)
+
+    #borrower = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name='borrower')
+    #renter = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name='renter')
+
+    location = models.CharField(max_length=100)
+    # By design an Ad can only belong to one category. Later change to ManyToManyField to allow one ad to have multiple categories
+    category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True)
+
+    LOAN_STATUS = (
+        ('a', 'Available'),
+        ('o', 'On loan'),
+        ('r', 'Reserved'),
+    )
+    loan_status = models.CharField(max_length=1, choices=LOAN_STATUS, blank=True, default='a', help_text='Tool availability')
+
+    loan_duration = models.IntegerField(help_text="Loan duration in days")
+    price = models.DecimalField(max_digits=5, decimal_places=2)
+
+    create_date = models.DateField(auto_now_add=True)
+    update_date = models.DateField(auto_now=True)
+
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, help_text="Unique ID for the ad")
+
+    def __str__(self):
+        return self.title
+
+    def get_absolute_url(self):
+        return reverse('ad-detail', args=[str(self.id)])
+
+class Profile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    bio = models.TextField(max_length=500, blank=True)
+    location = models.CharField(max_length=30, blank=True)
+    birth_date = models.DateField(null=True, blank=True)
+
+# Model representing the tool
+# class Tool(models.Model):
+#     name = models.CharField(max_length=200)
+#     category = models.ManyToManyField(Category, help_text='Select a category for this tool')
+#
+#     borrower = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name='borrower')
+#     renter = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name='renter')
+#
+#     LOAN_STATUS = (
+#         ('a', 'Available'),
+#         ('o', 'On loan'),
+#         ('r', 'Reserved'),
+#     )
+#     status = models.CharField(max_length=1, choices=LOAN_STATUS, blank=True, default='a', help_text='Tool availability')
+#
+#     def __str__(self):
+#         return self.name
+#
+#     # This is used for linking to the details page of a tool
+#     # Returns the url to access a detail
+#     def get_absolute_url(self):
+#         return reverse('tool-detail', args=[str(self.id)])
