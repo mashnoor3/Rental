@@ -57,32 +57,3 @@ class Ad(models.Model):
 
     def get_absolute_url(self):
         return reverse('ad-detail', args=[str(self.id)])
-
-class Profile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    bio = models.TextField(max_length=500, blank=True)
-    location = models.CharField(max_length=30, blank=True)
-    birth_date = models.DateField(null=True, blank=True)
-
-# Model representing the tool
-# class Tool(models.Model):
-#     name = models.CharField(max_length=200)
-#     category = models.ManyToManyField(Category, help_text='Select a category for this tool')
-#
-#     borrower = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name='borrower')
-#     renter = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name='renter')
-#
-#     LOAN_STATUS = (
-#         ('a', 'Available'),
-#         ('o', 'On loan'),
-#         ('r', 'Reserved'),
-#     )
-#     status = models.CharField(max_length=1, choices=LOAN_STATUS, blank=True, default='a', help_text='Tool availability')
-#
-#     def __str__(self):
-#         return self.name
-#
-#     # This is used for linking to the details page of a tool
-#     # Returns the url to access a detail
-#     def get_absolute_url(self):
-#         return reverse('tool-detail', args=[str(self.id)])

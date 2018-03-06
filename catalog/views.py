@@ -37,21 +37,3 @@ class AdCreate(LoginRequiredMixin, generic.CreateView):
         self.object.renter = self.request.user
         self.object.save()
         return super().form_valid(form)
-
-
-
-
-
-
-
-# class ToolListView(generic.ListView):
-#     model = Tool
-#
-#     def get_context_data(self, **kwargs):
-#         # Need to call the base implementation first to get the context
-#         context = super(ToolListView, self).get_context_data(**kwargs)
-#         context['some_data'] = 'lala'
-#         return context
-#
-# class ToolDetailView(generic.DetailView):
-#     model = Tool

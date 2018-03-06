@@ -40,6 +40,13 @@ INSTALLED_APPS = [
     # 'catalog.apps.CatalogConfig',
     'catalog',
     'django_tables2',
+    'crispy_forms',
+    # 'django.contrib.sites',
+    # 'allauth',
+    # 'allauth.account',
+    # 'allauth.socialaccount',
+    'accounts',
+    'profiles',
 ]
 
 MIDDLEWARE = [
@@ -69,6 +76,14 @@ TEMPLATES = [
         },
     },
 ]
+
+# AUTHENTICATION_BACKENDS = (
+#     # Needed to login by username in Django admin, regardless of `allauth`
+#     'django.contrib.auth.backends.ModelBackend',
+#
+#     # `allauth` specific authentication methods, such as login by e-mail
+#     'allauth.account.auth_backends.AuthenticationBackend',
+# )
 
 WSGI_APPLICATION = 'rental_site.wsgi.application'
 
@@ -121,6 +136,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
 
 STATIC_URL = '/static/'
+
+CRISPY_TEMPLATE_PACK = 'bootstrap3'
 
 # Redirect to home URL after login (Default redirects to /accounts/profile/)
 LOGIN_REDIRECT_URL = '/'

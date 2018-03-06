@@ -19,8 +19,13 @@ from django.conf.urls.static import static
 # urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 #Add Django site authentication urls (for login, logout, password management)
+from django.contrib.auth import views as auth_views
+
 urlpatterns += [
+    path(r'^login/$', auth_views.login, name='login'),
     path('accounts/', include('django.contrib.auth.urls')),
+    path('accounts/', include("accounts.urls", namespace="accounts")),
+
 ]
 
 ''' URL mamgings for accounts
