@@ -21,7 +21,6 @@ class AdListView(generic.ListView):
 class AdDetailView(generic.DetailView):
     model = Ad
 
-
 class UserAdsListView(LoginRequiredMixin,generic.ListView):
     model = Ad
     template_name ='catalog/ad_list_user.html'

@@ -29,10 +29,11 @@
           </a>
           <ul class="dropdown-menu">
             {% if not request.user.is_authenticated %}
-              <li><a href="{% url 'login' %}?next={{request.path}}">Login</a></li>
+              <li><a href="{% url 'login' %}">Login</a></li>
               <li><a href="{% url 'accounts:signup' %}">Signup</a></li>
             {% else %}
               <li><a href="{% url 'accounts:profile' %}">My Profile</a></li>
+              <li><a href="{% url 'accounts:favourites' %}">My Favourites</a></li>
               <li><a href="{% url 'logout' %}">Logout</a></li>
             {% endif %}
           </ul>

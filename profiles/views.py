@@ -5,11 +5,14 @@ from django.views import generic
 from django.contrib import messages
 
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db import transaction
 
 from django.contrib.auth.forms import UserCreationForm
-from . forms import UserForm, ProfileForm
 
+from .forms import UserForm, ProfileForm
+from .models import Profile
+from catalog.models import Ad
 
 class SignUp(generic.CreateView):
     form_class = UserCreationForm
@@ -19,7 +22,7 @@ class SignUp(generic.CreateView):
 # @login_required
 # def update_profile(request, user_pk):
 #     user = User.objects.get(pk=user_pk)
-#     # user.profile.bio = 'got changed again!!'
+#     user.profile.bio = 'got changed again!'
 #     user.save()
 #
 #     return render (request, 'profile.html', {})
@@ -45,3 +48,13 @@ def update_profile(request):
         'user_form': user_form,
         'profile_form': profile_form
     })
+
+class FavouriteListView(generic.ListView):
+    model = Ad
+    context_object_name = 'my_favourites_list'
+    # queryset = Profile.objects.favourites.all()
+    # queryset = Ad.objects.filter(loan_status='a')
+    template_name ='my-favourites.html'
+
+    def get_queryset(self):
+        return Ad.objects.filter(favourites=self.request.user.profile)

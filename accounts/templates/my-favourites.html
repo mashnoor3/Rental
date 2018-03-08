@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Fav List</h1>
+
+    {% if my_favourites_list %}
+    <ul>
+
+      {% for ad in my_favourites_list %}
+      <li>
+        <a href="#">{{ ad.title }}</a>
+      </li>
+      {% endfor %}
+    </ul>
+    {% else %}
+      <p>No favs!!</p>
+    {% endif %}
+{% endblock %}

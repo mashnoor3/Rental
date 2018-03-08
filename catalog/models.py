@@ -5,6 +5,8 @@ from django.urls import reverse #Used to generate URLs by reversing the URL patt
 from django.contrib.auth.models import User
 from django.contrib import admin
 
+from profiles.models import Profile
+
 # Model representing category for tool (e.g. Moving, Gardening, Home Renovation, etc.)
 class Category(models.Model):
     CATEGORY_CHOICES = (
@@ -17,7 +19,7 @@ class Category(models.Model):
         ('Washroom', 'Washroom'),
     )
 
-    category_name = models.CharField(max_length=20, choices=CATEGORY_CHOICES, blank=True, default='Other', help_text="Choose a cateogry (e.g. Moving, Gardening etc.)")
+    category_name = models.CharField(max_length=20, choices=CATEGORY_CHOICES, blank=True, default='Other', help_text="Choose a cateogry (e.g. Moving, Gardening etc.)", unique=True)
 
     def __str__(self):
         return self.category_name
@@ -49,6 +51,8 @@ class Ad(models.Model):
 
     create_date = models.DateField(auto_now_add=True)
     update_date = models.DateField(auto_now=True)
+
+    favourites = models.ManyToManyField(Profile)
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, help_text="Unique ID for the ad")
 

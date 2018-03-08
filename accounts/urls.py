@@ -9,4 +9,5 @@ app_name = 'accounts'
 urlpatterns = [
     path('signup/', profile_views.SignUp.as_view(), name='signup'),
     path('profile/', profile_views.update_profile, name='profile'),
+    path('my-favourites/', profile_views.FavouriteListView.as_view(), name='favourites'),
 ]
