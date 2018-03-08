@@ -26,6 +26,7 @@
 <thead>
   <tr>
     <th><strong>Ad</strong></th>
+    <th><strong>Favourite?</strong></th>
     <th><strong>Price</strong></th>
     <th><strong>Location</strong></th>
     <th><strong>Date Posted</strong></th>
@@ -35,6 +36,7 @@
   {% for ad in ad_list %}
   <tr>
     <td><a href="{{ ad.get_absolute_url }}">{{ ad.title }}</a></td>
+    <td><span class="glyphicon glyphicon glyphicon-heart"></span></td>
     <td>${{ad.price}}</td>
     <td >{{ad.location}}</td>
     <td>{{ad.create_date}}</td>

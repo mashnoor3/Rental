@@ -49,11 +49,9 @@ def update_profile(request):
         'profile_form': profile_form
     })
 
-class FavouriteListView(generic.ListView):
+class FavouriteListView(generic.ListView, LoginRequiredMixin):
     model = Ad
     context_object_name = 'my_favourites_list'
-    # queryset = Profile.objects.favourites.all()
-    # queryset = Ad.objects.filter(loan_status='a')
     template_name ='my-favourites.html'
 
     def get_queryset(self):
