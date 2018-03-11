@@ -3,18 +3,28 @@
 
 {% block styles %}
 <link rel="stylesheet" href="{% static 'catalog/table_styles.css' %}">
+<style media="screen">
+.fav_color {
+  color: red;
+}
+</style>
+
 {% endblock %}
 
 {% block scripts %}
-  <script type="text/javascript" src="{% static 'catalog/jquery-latest.js' %}"></script>
-  <script type="text/javascript" src="{% static 'catalog/jquery.tablesorter.js' %}"></script>
+<script type="text/javascript" src="{% static 'catalog/jquery-latest.js' %}"></script>
+<script type="text/javascript" src="{% static 'catalog/jquery.tablesorter.js' %}"></script>
 
-  <script>
-  $(document).ready(function(){
-    $("#myTable").tablesorter( {sortList: [[3,1]]} );
+<script>
+$(document).ready(function(){
+  $("#myTable").tablesorter( {sortList: [[3,1]]} );
+
+  $(".fav").click(function() {
+    $(this).toggleClass("fav_color");
   });
-  </script>
+});
 
+</script>
 {% endblock %}
 
 {% block content %}
@@ -36,7 +46,7 @@
   {% for ad in ad_list %}
   <tr>
     <td><a href="{{ ad.get_absolute_url }}">{{ ad.title }}</a></td>
-    <td><span class="glyphicon glyphicon glyphicon-heart"></span></td>
+    <td><span class="fav glyphicon glyphicon-heart"></span></td>
     <td>${{ad.price}}</td>
     <td >{{ad.location}}</td>
     <td>{{ad.create_date}}</td>

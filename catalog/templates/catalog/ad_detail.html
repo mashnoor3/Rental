@@ -4,5 +4,14 @@
   <h1>Ad detail page</h1>
 
   <p><strong>Ad title:</strong> {{ ad.title }} </a></p>
+  <p><strong>Ad price:</strong> {{ ad.price }} </a></p>
+  <p><strong>Favourited by: </strong> {{ fav_user }} </a></p>
+
+  <form action="" method="post">
+    {% csrf_token %}
+    <label for="your_name">Some input: </label>
+    <input id="your_name" type="text" name="your_name">
+    <input type="submit" value="OK">
+  </form>
 
 {% endblock %}

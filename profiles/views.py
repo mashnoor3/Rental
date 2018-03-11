@@ -54,5 +54,6 @@ class FavouriteListView(generic.ListView, LoginRequiredMixin):
     context_object_name = 'my_favourites_list'
     template_name ='my-favourites.html'
 
+    # Override the refault queryset of Listview to return Ads that have favourites set to current user
     def get_queryset(self):
         return Ad.objects.filter(favourites=self.request.user.profile)
