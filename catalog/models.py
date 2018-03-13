@@ -32,8 +32,9 @@ class Ad(models.Model):
     title = models.CharField(max_length=100)
     description = models.CharField(max_length=1000)
 
+    renter = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name='my_ads')
     #borrower = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name='borrower')
-    #renter = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name='renter')
+
 
     location = models.CharField(max_length=100)
     # By design an Ad can only belong to one category. Later change to ManyToManyField to allow one ad to have multiple categories

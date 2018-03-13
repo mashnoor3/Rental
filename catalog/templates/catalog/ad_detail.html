@@ -1,10 +1,17 @@
 {% extends "base.html" %}
 
 {% block content %}
-  <h1>Ad detail page</h1>
+  <h1>{{ad.title}}</h1>
 
-  <p><strong>Ad title:</strong> {{ ad.title }} </a></p>
-  <p><strong>Ad price:</strong> {{ ad.price }} </a></p>
-  <p><strong>Favourited by: </strong> {{ fav_user }} </a></p>
+  <p><strong>Ad description:</strong> {{ ad.description }} </a></p>
+  <p><strong>Ad price:</strong> ${{ ad.price }} </a></p>
+
+  <form action="" method="post">
+      {% csrf_token %}
+      <label for="add_favourite">Add to favourites: </label>
+      {{ form.add_favourite }}
+      <input type="submit" value="Submit" />
+  </form>
+
 
 {% endblock %}
