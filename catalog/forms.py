@@ -1,5 +1,5 @@
 from django import forms
 
-class TestForm(forms.Form):
-    test_input = forms.CharField(widget=forms.Textarea)
-    check_me = forms.BooleanField(required=False)
+class AdDetailForm(forms.Form):
+    # test_input = forms.CharField(widget=forms.Textarea)
+    add_favourite = forms.BooleanField(required=False)

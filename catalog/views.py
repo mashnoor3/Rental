@@ -51,16 +51,17 @@ class AdCreate(LoginRequiredMixin, generic.CreateView):
         self.object.save()
         return super().form_valid(form)
 
-from . forms import TestForm
+from . forms import AdDetailForm
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 
-def get_test_form(request, ad_pk):
+def get_ad_detail_form(request, ad_pk):
+    cur_ad = Ad.objects.filter(id=ad_pk).get()
     if request.method == 'POST':
-        form = TestForm(request.POST)
+        form = AdDetailForm(request.POST)
         if form.is_valid():
-            cur_ad = Ad.objects.filter(id=ad_pk).get()
-            if form['check_me'].value() == True:
+
+            if form['add_favourite'].value() == True:
                 cur_ad.favourites.add(request.user.profile)
             else:
                 cur_ad.favourites.remove(request.user.profile)
@@ -69,5 +70,8 @@ def get_test_form(request, ad_pk):
 
     # if a GET (or any other method) we'll create a blank form
     else:
-        form = TestForm()
-    return render(request, 'catalog/ad_update.html', {'form': form})
+        form = AdDetailForm()
+    print (cur_ad.title)
+    print (cur_ad.price)
+    context = {'form':form, 'title':cur_ad.title, 'price':cur_ad.price}
+    return render(request, 'catalog/ad_update.html', context)

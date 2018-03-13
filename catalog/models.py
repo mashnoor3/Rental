@@ -60,4 +60,4 @@ class Ad(models.Model):
         return self.title
 
     def get_absolute_url(self):
-        return reverse('ad-detail', args=[str(self.id)])
+        return reverse('ad_detail', args=[str(self.id)])

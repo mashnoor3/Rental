@@ -1,11 +1,15 @@
 {% extends "base.html" %}
 
 {% block content %}
-  <h1>Ad Update page</h1>
+  <h1>Ad Detail page</h1>
+
+  <p><strong>Ad title:</strong> {{ title }} </a></p>
+  <p><strong>Ad price:</strong> ${{ price }} </a></p>
 
   <form action="" method="post">
       {% csrf_token %}
-      {{ form.as_p }}
+      <label for="add_favourite">Add to favourites: </label>
+      {{ form.add_favourite }}
       <input type="submit" value="Submit" />
   </form>
 
