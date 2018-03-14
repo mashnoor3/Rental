@@ -32,7 +32,7 @@ class Ad(models.Model):
     title = models.CharField(max_length=100)
     description = models.CharField(max_length=1000)
 
-    renter = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name='my_ads')
+    renter = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=False, related_name='my_ads')
     #borrower = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name='borrower')
 
 
@@ -53,7 +53,7 @@ class Ad(models.Model):
     create_date = models.DateField(auto_now_add=True)
     update_date = models.DateField(auto_now=True)
 
-    favourites = models.ManyToManyField(Profile)
+    favourites = models.ManyToManyField(Profile, blank=True)
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, help_text="Unique ID for the ad")
 
@@ -62,3 +62,6 @@ class Ad(models.Model):
 
     def get_absolute_url(self):
         return reverse('ad_detail', args=[str(self.id)])
+
+    def get_update_url(self):
+        return reverse('ad_update', args=[str(self.id)])

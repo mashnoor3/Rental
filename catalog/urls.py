@@ -7,5 +7,6 @@ urlpatterns = [
     path('ads/', views.AdListView.as_view(), name='ads'),
     # path('ad/<uuid:pk>', views.AdDetailView.as_view(), name='ad_detail'),
     path('ad/<uuid:ad_pk>', views.get_ad_detail_form, name='ad_detail'),
+    path('ad/<uuid:ad_pk>/update', views.AdUpdateView.as_view(), name='ad_update'),
     path('ad/create', views.AdCreate.as_view(), name='ad_create'),
 ]

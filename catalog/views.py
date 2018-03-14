@@ -1,9 +1,11 @@
 from django.shortcuts import render
 from django.views import generic
-from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views.generic.edit import FormMixin
 from django.http import HttpResponseRedirect
 from django.urls import reverse
+
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views.generic.edit import FormMixin
+
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 
 from .models import Ad
@@ -17,9 +19,8 @@ class AdListView(generic.ListView):
     # Get only active ads
     queryset = Ad.objects.filter(loan_status='a')
 
-class AdUpdateView(generic.UpdateView):
-    model = Ad
-    fields = '__all__'
+    # def get_queryset(self):
+    #     return Ad.objects.filter(renter=self.request.user)
 
 class UserAdsListView(LoginRequiredMixin,generic.ListView):
     template_name ='catalog/ad_list_user.html'
@@ -41,6 +42,13 @@ class AdCreate(LoginRequiredMixin, generic.CreateView):
         self.object.renter = self.request.user
         self.object.save()
         return super().form_valid(form)
+
+class AdUpdateView(LoginRequiredMixin, generic.UpdateView):
+    model = Ad
+    fields = ['title', 'description', 'location', 'category', 'loan_duration', 'price']
+    # template_name = "catalog/ad_update.html"
+    # Override the defauly, which expcets pk
+    pk_url_kwarg = "ad_pk"
 
 def get_ad_detail_form(request, ad_pk):
     cur_ad = Ad.objects.filter(id=ad_pk).get()

@@ -8,7 +8,7 @@
 
 {% if object_list %}
   {% for ad in object_list %}
-    <p><a href="{{ ad.get_absolute_url }}">{{ ad.title }}</a></p>
+    <p><a href="{{ ad.get_update_url }}">{{ ad.title }}</a></p>
   {% endfor %}
 {% else %}
 <p>You do not have any ads</p>

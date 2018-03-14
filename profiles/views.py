@@ -19,14 +19,6 @@ class SignUp(generic.CreateView):
     success_url = reverse_lazy('login')
     template_name = 'signup.html'
 
-# @login_required
-# def update_profile(request, user_pk):
-#     user = User.objects.get(pk=user_pk)
-#     user.profile.bio = 'got changed again!'
-#     user.save()
-#
-#     return render (request, 'profile.html', {})
-
 @login_required
 @transaction.atomic
 def update_profile(request):
