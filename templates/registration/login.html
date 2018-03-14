@@ -1,8 +1,9 @@
 {% extends "base.html" %}
-
+{% load crispy_forms_tags %}
 
 {% block content %}
-
+<div class="col-sm-6 col-sm-offset-3">
+<h2>Login</h2>
 {% if form.errors %}
 <p>Your username and password didn't match. Please try again.</p>
 {% endif %}
@@ -33,6 +34,6 @@
 </form>
 
 {# Assumes you setup the password_reset view in your URLconf #}
-<p><a href="{% url 'password_reset' %}">Lost password?</a></p>
-
+<p><a href="{% url 'accounts:signup' %}">Sign up here</a></p>
+</div>
 {% endblock %}

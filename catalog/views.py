@@ -47,7 +47,9 @@ class AdCreate(LoginRequiredMixin, generic.CreateView):
 class AdUpdateView(LoginRequiredMixin, generic.UpdateView):
     model = Ad
     fields = ['title', 'description', 'location', 'category', 'loan_duration', 'price']
+    # To override default update page, uncomment line below
     # template_name = "catalog/ad_update.html"
+
     # Override the defauly, which expcets pk
     pk_url_kwarg = "ad_pk"
 

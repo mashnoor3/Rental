@@ -3,10 +3,19 @@
 {% block styles %}
 <style>
 .fav_color {
-  color: red;
+  color: black;
 }
 </style>
+{% endblock %}
 
+{% block scripts %}
+<script>
+$(document).ready(function(){
+  $(".fav").click(function() {
+    $(this).toggleClass("fav_color");
+  });
+});
+</script>
 {% endblock %}
 
 {% block content %}
@@ -27,7 +36,7 @@
     <tr>
       <td><a href="{{ ad.get_update_url }}">{{ ad.title }}</a></td>
       <td>{{ ad.get_loan_status_display }}</td>
-      <td><a href="{{ ad.get_delete_url }}"><span class="fav_color glyphicon glyphicon-remove"></span></a></td>
+      <td><a href="{{ ad.get_delete_url }}"><span class="fav glyphicon glyphicon-remove"></span></a></td>
     </tr>
     {% endfor %}
   </tbody>
