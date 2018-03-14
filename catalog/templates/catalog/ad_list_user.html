@@ -1,17 +1,41 @@
 {% extends "base.html" %}
 
+{% block styles %}
+<style>
+.fav_color {
+  color: red;
+}
+</style>
+
+{% endblock %}
+
 {% block content %}
 
-<h1>My Listings</h1>
+<div class="col-sm-6">
+  <h1>My Ads</h1>
+  {% if my_ads %}
+  <table class="table">
+  <thead>
+    <tr>
+      <th><strong>Ad</strong></th>
+      <th><strong>Loan Status</strong></th>
+      <th><strong>Delete</strong></th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for ad in my_ads %}
+    <tr>
+      <td><a href="{{ ad.get_update_url }}">{{ ad.title }}</a></td>
+      <td>{{ ad.get_loan_status_display }}</td>
+      <td><a href="{{ ad.get_delete_url }}"><span class="fav_color glyphicon glyphicon-remove"></span></a></td>
+    </tr>
+    {% endfor %}
+  </tbody>
+  </table>
+  {% else %}
+    <p>You do not have any ads</p>
+  {% endif %}
 
-<p>The user is: {{cur_user}}</p>
-
-{% if object_list %}
-  {% for ad in object_list %}
-    <p><a href="{{ ad.get_update_url }}">{{ ad.title }}</a></p>
-  {% endfor %}
-{% else %}
-<p>You do not have any ads</p>
-{% endif %}
+</div>
 
 {% endblock %}

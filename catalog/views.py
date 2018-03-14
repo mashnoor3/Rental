@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.views import generic
 from django.http import HttpResponseRedirect
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
 
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic.edit import FormMixin
@@ -24,6 +24,7 @@ class AdListView(generic.ListView):
 
 class UserAdsListView(LoginRequiredMixin,generic.ListView):
     template_name ='catalog/ad_list_user.html'
+    context_object_name = 'my_ads'
 
     def get_queryset(self):
         return Ad.objects.filter(renter=self.request.user)
@@ -49,6 +50,11 @@ class AdUpdateView(LoginRequiredMixin, generic.UpdateView):
     # template_name = "catalog/ad_update.html"
     # Override the defauly, which expcets pk
     pk_url_kwarg = "ad_pk"
+
+class AdDeleteView(DeleteView):
+    model = Ad
+    pk_url_kwarg = "ad_pk"
+    success_url = reverse_lazy('ads')
 
 def get_ad_detail_form(request, ad_pk):
     cur_ad = Ad.objects.filter(id=ad_pk).get()
