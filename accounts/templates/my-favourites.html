@@ -8,7 +8,7 @@
 
       {% for ad in my_favourites_list %}
       <li>
-        <a href="#">{{ ad.title }}</a>
+        <a href="{{ ad.get_absolute_url }}">{{ ad.title }}</a>
       </li>
       {% endfor %}
     </ul>

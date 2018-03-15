@@ -6,8 +6,8 @@
 <h1> My Profile</h1>
 <form method="post">
   {% csrf_token %}
-  {{ user_form|crispy }}
   {{ profile_form|crispy }}
+  {{ user_form|crispy }}
   <button class="btn btn-success" type="submit">Save changes</button>
 </form>
 </div>

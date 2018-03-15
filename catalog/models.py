@@ -34,7 +34,7 @@ class Ad(models.Model):
 
     renter = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=False, related_name='my_ads')
     #borrower = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name='borrower')
-
+    # borrow_requests = models.ManyToManyField(Profile, blank=True)
 
     location = models.CharField(max_length=100)
     # By design an Ad can only belong to one category. Later change to ManyToManyField to allow one ad to have multiple categories
@@ -53,6 +53,7 @@ class Ad(models.Model):
     create_date = models.DateField(auto_now_add=True)
     update_date = models.DateField(auto_now=True)
 
+    add_fav = models.BooleanField()
     favourites = models.ManyToManyField(Profile, blank=True)
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, help_text="Unique ID for the ad")

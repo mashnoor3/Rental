@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load crispy_forms_tags %}
 
 {% block content %}
   <h1>{{ad.title}}</h1>
@@ -8,10 +9,14 @@
 
   <form action="" method="post">
       {% csrf_token %}
-      <label for="add_favourite">Add to favourites: </label>
-      {{ form.add_favourite }}
-      <input type="submit" value="Submit" />
+      {{ fav_form }}
+      <input class="btn btn-default" type="submit" value="Submit" />
   </form>
 
 
 {% endblock %}
+
+<!--
+action speficies which url to send form data to
+blank action "" sends to current url
+-->

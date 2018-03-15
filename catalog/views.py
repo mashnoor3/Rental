@@ -9,7 +9,7 @@ from django.views.generic.edit import FormMixin
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 
 from .models import Ad
-from . forms import AdDetailForm
+from . forms import FavForm
 
 def index(request):
     return render(request,'index.html',context={})
@@ -18,9 +18,6 @@ class AdListView(generic.ListView):
     # model = Ad
     # Get only active ads
     queryset = Ad.objects.filter(loan_status='a')
-
-    # def get_queryset(self):
-    #     return Ad.objects.filter(renter=self.request.user)
 
 class UserAdsListView(LoginRequiredMixin,generic.ListView):
     template_name ='catalog/ad_list_user.html'
@@ -48,31 +45,30 @@ class AdUpdateView(LoginRequiredMixin, generic.UpdateView):
     model = Ad
     fields = ['title', 'description', 'location', 'category', 'loan_duration', 'price']
     # To override default update page, uncomment line below
-    # template_name = "catalog/ad_update.html"
+    template_name = "catalog/ad_update.html"
 
-    # Override the defauly, which expcets pk
+    # Override by default it is set to pk. Change this to ad_pk
     pk_url_kwarg = "ad_pk"
 
 class AdDeleteView(DeleteView):
     model = Ad
     pk_url_kwarg = "ad_pk"
-    success_url = reverse_lazy('ads')
+    success_url = reverse_lazy('my_ads')
 
-def get_ad_detail_form(request, ad_pk):
+def get_ad_detail(request, ad_pk):
     cur_ad = Ad.objects.filter(id=ad_pk).get()
-    if request.method == 'POST':
-        form = AdDetailForm(request.POST)
-        if form.is_valid():
-            if form['add_favourite'].value() == True:
-                cur_ad.favourites.add(request.user.profile)
-            else:
-                cur_ad.favourites.remove(request.user.profile)
-            print(cur_ad.favourites.all())
-            return HttpResponseRedirect(reverse("ads"))
+    fav_form= FavForm(request.POST or None, instance=cur_ad)
 
-    # if a GET (or any other method), create blank form
-    else:
-        form = AdDetailForm()
+    if request.method == 'POST' and fav_form.is_valid():
+        print(fav_form['add_fav'].value())
+        # If favourites box is checked, add to user to the Ads favourites attribute
+        if fav_form['add_fav'].value() == True:
+            cur_ad.favourites.add(request.user.profile)
+        else:
+            cur_ad.favourites.remove(request.user.profile)
 
-    context = {'form':form, 'ad':cur_ad}
+    context = {'fav_form':fav_form, 'ad':cur_ad}
     return render(request, 'catalog/ad_detail.html', context)
+
+def reqeust_borrow(request, ad_pk):
+    return render(request, 'catalog/ad_detail.html', {})

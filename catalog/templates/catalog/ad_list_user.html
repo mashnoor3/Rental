@@ -2,21 +2,12 @@
 
 {% block styles %}
 <style>
-.fav_color {
-  color: black;
+.red_color {
+  color: red;
 }
 </style>
 {% endblock %}
 
-{% block scripts %}
-<script>
-$(document).ready(function(){
-  $(".fav").click(function() {
-    $(this).toggleClass("fav_color");
-  });
-});
-</script>
-{% endblock %}
 
 {% block content %}
 
@@ -36,7 +27,7 @@ $(document).ready(function(){
     <tr>
       <td><a href="{{ ad.get_update_url }}">{{ ad.title }}</a></td>
       <td>{{ ad.get_loan_status_display }}</td>
-      <td><a href="{{ ad.get_delete_url }}"><span class="fav glyphicon glyphicon-remove"></span></a></td>
+      <td><a href="{{ ad.get_delete_url }}"><span class="glyphicon glyphicon-remove"></span></a></td>
     </tr>
     {% endfor %}
   </tbody>
@@ -44,7 +35,6 @@ $(document).ready(function(){
   {% else %}
     <p>You do not have any ads</p>
   {% endif %}
-
 </div>
 
 {% endblock %}
