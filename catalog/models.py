@@ -10,13 +10,15 @@ from profiles.models import Profile
 # Model representing category for tool (e.g. Moving, Gardening, Home Renovation, etc.)
 class Category(models.Model):
     CATEGORY_CHOICES = (
-        ('Other', 'Other'),
         ('Home Renovation', 'Home Renovation'),
         ('Gardening', 'Gardening'),
         ('Power Tools', 'Power Tools'),
         ('Moving', 'Moving'),
         ('Garage', 'Garage'),
         ('Washroom', 'Washroom'),
+        ('Kitchen', 'Kitchen'),
+        ('Automobile', 'Automobile'),
+        ('Other', 'Other'),
     )
 
     category_name = models.CharField(max_length=20, choices=CATEGORY_CHOICES, blank=True, default='Other', help_text="Choose a cateogry (e.g. Moving, Gardening etc.)", unique=True)
@@ -32,9 +34,13 @@ class Ad(models.Model):
     title = models.CharField(max_length=100)
     description = models.CharField(max_length=1000)
 
-    renter = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=False, related_name='my_ads')
-    #borrower = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name='borrower')
+    renter = models.ForeignKey(Profile, on_delete=models.SET_NULL, null=True, blank=False, related_name='my_ads')
+
+
+    # Multiple people can request to borrow
     # borrow_requests = models.ManyToManyField(Profile, blank=True)
+    # Only one person can be borrower
+    # borrower = models.ForeignKey(Profile, on_delete=models.SET_NULL, null=True, blank=True, related_name='borrower')
 
     location = models.CharField(max_length=100)
     # By design an Ad can only belong to one category. Later change to ManyToManyField to allow one ad to have multiple categories

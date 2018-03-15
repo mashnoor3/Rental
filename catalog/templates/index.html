@@ -1,6 +1,36 @@
 {% extends "base.html" %}
+{% load staticfiles %}
+{% block styles %}
+<style>
+	.jumbotron {
+		text-align: center;
+	}
+
+	.card {
+	  float: center;
+	  width: 25%;
+	  padding: .75rem;
+	  margin-bottom: 2rem;
+	  border: 0;
+	}
+	}
+</style>
+{% endblock %}
 
 {% block content %}
-<h1>Index Page</h1>
+<h1>Welcome Friends</h1>
+<a href="#"> <img src="{% static 'catalog/home_page_sales.jpg' %}" class='img-responsive'> </a>
 
+<div class="album text-muted">
+	<div class="container">
+
+    <div class="row">
+			<div class="card">
+				<img class="center-block" src="{% static 'img/book1.jpg' %}" alt="Photo not available">
+				<p class="card-text">Category </p>
+
+			</div>
+    </div>
+  </div>
+</div>
 {% endblock %}
