@@ -10,8 +10,8 @@
   {% if show_fav_form %}
   <form action="" method="post">
       {% csrf_token %}
-      {{ fav_form }}
-      <input class="btn btn-default" type="submit" value="Submit" />
+      {{ fav_form|crispy }}
+      <input class="btn btn-default" name="mashnoor_name" type="submit" value="Submit" />
   </form>
   {% endif %}
 

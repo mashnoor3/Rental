@@ -62,13 +62,19 @@ def get_ad_detail(request, ad_pk):
         show_fav_form = False
 
     if request.method == 'POST':
+
         fav_form= FavForm(request.POST)
+        print(fav_form)
         if fav_form.is_valid():
             # If favourites box is checked, add to user to the Ads favourites attribute
             if fav_form['add_fav'].value() == True:
                 cur_ad.favourites.add(request.user.profile)
             else:
                 cur_ad.favourites.remove(request.user.profile)
+            if fav_form['add_requestor'].value() == True:
+                cur_ad.borrow_requests.add(request.user.profile)
+            else:
+                cur_ad.borrow_requests.remove(request.user.profile)
     else:
         fav_form= FavForm(instance=cur_ad)
 
