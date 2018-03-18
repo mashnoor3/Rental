@@ -8,14 +8,12 @@ from django.utils.translation import ugettext_lazy as _
 #     add_favourite = forms.BooleanField(required=False)
 #     # request_borrow = forms.BooleanField(required=False)
 
-
 class FavForm(forms.ModelForm):
     class Meta:
         model = Ad
-        fields = ('add_fav','add_requestor')
+        fields = ('add_requestor',)
         # widgets={'add_fav': CheckboxInput()}
         labels = {
-                'add_fav': _('Add to Favourites'),
                 'add_requestor': _('Request to Borrow'),
                 }
 

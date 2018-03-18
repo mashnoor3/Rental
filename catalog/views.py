@@ -36,18 +36,13 @@ class UserAdsListView(LoginRequiredMixin,generic.ListView):
     def get_queryset(self):
         return Ad.objects.filter(renter=self.request.user.profile)
 
-    # def get_context_data(self, **kwargs):
-    #     context = super(UserAdsListView, self).get_context_data(**kwargs)
-    #     context['cur_user'] = self.request.user
-    #     return context
-
 class AdCreate(LoginRequiredMixin, generic.CreateView):
     model = Ad
     fields = ['title', 'description', 'location', 'category', 'loan_duration', 'price']
 
     def form_valid(self, form):
         self.object = form.save(commit=False)
-        self.object.renter = self.request.user
+        self.object.renter = self.request.user.profile
         self.object.save()
         return super().form_valid(form)
 
@@ -77,15 +72,7 @@ def get_ad_detail(request, ad_pk):
         fav_form= FavForm(request.POST)
         print(fav_form)
         if fav_form.is_valid():
-            # If favourites box is checked, add to user to the Ads favourites attribute
-            if fav_form['add_fav'].value() == True:
-                cur_ad.favourites.add(request.user.profile)
-            else:
-                cur_ad.favourites.remove(request.user.profile)
-            if fav_form['add_requestor'].value() == True:
-                cur_ad.borrow_requests.add(request.user.profile)
-            else:
-                cur_ad.borrow_requests.remove(request.user.profile)
+            pass
     else:
         fav_form= FavForm(instance=cur_ad)
 

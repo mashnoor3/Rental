@@ -37,14 +37,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    # 'catalog.apps.CatalogConfig',
     'catalog',
     'django_tables2',
     'crispy_forms',
-    # 'django.contrib.sites',
-    # 'allauth',
-    # 'allauth.account',
-    # 'allauth.socialaccount',
     'accounts',
     'profiles',
 ]
@@ -76,14 +71,6 @@ TEMPLATES = [
         },
     },
 ]
-
-# AUTHENTICATION_BACKENDS = (
-#     # Needed to login by username in Django admin, regardless of `allauth`
-#     'django.contrib.auth.backends.ModelBackend',
-#
-#     # `allauth` specific authentication methods, such as login by e-mail
-#     'allauth.account.auth_backends.AuthenticationBackend',
-# )
 
 WSGI_APPLICATION = 'rental_site.wsgi.application'
 
@@ -136,6 +123,9 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
 
 STATIC_URL = '/static/'
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, "rental_site/media")
 
 CRISPY_TEMPLATE_PACK = 'bootstrap3'
 

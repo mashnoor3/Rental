@@ -1,9 +1,13 @@
 {% extends "base.html" %}
 {% load crispy_forms_tags %}
+{% load staticfiles %}
+
+
 
 {% block content %}
   <h1>{{ad.title}}</h1>
 
+  <img src="{{ ad.ad_img.url }}" alt="no image uploaded" width="240" class="img-rounded">
   <p><strong>Ad description:</strong> {{ ad.description }} </a></p>
   <p><strong>Ad price:</strong> ${{ ad.price }} </a></p>
 
