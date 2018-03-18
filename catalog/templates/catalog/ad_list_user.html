@@ -20,6 +20,7 @@
       <th><strong>Ad</strong></th>
       <th><strong>Loan Status</strong></th>
       <th><strong>Delete</strong></th>
+      <th><strong>Requests</strong></th>
     </tr>
   </thead>
   <tbody>
@@ -27,7 +28,8 @@
     <tr>
       <td><a href="{{ ad.get_update_url }}">{{ ad.title }}</a></td>
       <td>{{ ad.get_loan_status_display }}</td>
-      <td><a href="{{ ad.get_delete_url }}"><span class="glyphicon glyphicon-remove"></span></a></td>
+      <td><a href="{{ ad.get_delete_url }}"><span type="button" class="red_color glyphicon glyphicon-remove"></span></a></td>
+      <td>{{ad.borrow_requests.all.count}}</td>
     </tr>
     {% endfor %}
   </tbody>

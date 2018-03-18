@@ -40,7 +40,7 @@ class Ad(models.Model):
 
     # Multiple people can request to borrow
     add_requestor = models.BooleanField(default=False)
-    borrow_requests = models.ManyToManyField(Profile, blank=True,  related_name='requests')
+    borrow_requests = models.ManyToManyField(Profile, blank=True,  related_name='borrow_requests')
     # Only one person can be borrower
     # borrower = models.ForeignKey(Profile, on_delete=models.SET_NULL, null=True, blank=True, related_name='borrower')
 
@@ -61,7 +61,7 @@ class Ad(models.Model):
     create_date = models.DateField(auto_now_add=True)
     update_date = models.DateField(auto_now=True)
 
-    favourites = models.ManyToManyField(Profile, null=True, related_name='favs')
+    favourites = models.ManyToManyField(Profile, null=True, blank=True, related_name='favs')
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, help_text="Unique ID for the ad")
 

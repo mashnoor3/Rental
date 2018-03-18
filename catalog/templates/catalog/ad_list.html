@@ -51,9 +51,13 @@ $(document).ready(function(){
   <tr>
     <td><a href="{{ ad.get_absolute_url }}">{{ ad.title }}</a></td>
     <td>
+      {% if request.user.is_authenticated %}
       <a href="{{ ad.update_fav_url }}">
         <span type="button" class="{% if ad.title in fav_list %} fav_color {% else %} unfav_color {% endif %}glyphicon glyphicon-heart"></span>
       </a>
+      {% else %}
+      Login to favourite
+      {% endif %}
     </td>
     <td>${{ad.price}}</td>
     <td >{{ad.location}}</td>

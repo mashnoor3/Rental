@@ -12,6 +12,8 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from .models import Ad
 from . forms import FavForm
 
+from django.contrib.auth.decorators import login_required
+
 def index(request):
     return render(request,'index.html',context={})
 
@@ -24,9 +26,11 @@ class AdListView(generic.ListView):
     #     return Ad.objects.filter(favourites=self.request.user.profile)
 
     def get_context_data(self, **kwargs):
+        print ("hellooooo")
         context = super(AdListView, self).get_context_data(**kwargs)
-        fav_list = Ad.objects.filter(favourites=self.request.user.profile).values_list('title', flat=True)
-        context['fav_list'] = fav_list
+        if not self.request.user.id == None:
+            fav_list = Ad.objects.filter(favourites=self.request.user.profile).values_list('title', flat=True)
+            context['fav_list'] = fav_list
         return context
 
 class UserAdsListView(LoginRequiredMixin,generic.ListView):
@@ -65,8 +69,14 @@ def get_ad_detail(request, ad_pk):
 
     show_request = False
     show_unrequest = False
+
+    if request.user.id == None:
+        return render(request, 'catalog/ad_detail.html', {'ad':cur_ad})
+    # Check if the current user is the creator of the ad
     if not (cur_ad.renter == request.user.profile):
+        # Get list of users who requested this ad already
         request_list = Ad.objects.filter(borrow_requests=request.user.profile)
+        # If current user requsted already, only show option to cancel request
         if cur_ad in request_list:
             show_unrequest = True
         else:
@@ -105,7 +115,6 @@ def add_request (request, ad_pk):
         cur_ad.borrow_requests.add(request.user.profile)
     context = {'ad':cur_ad,}
     return HttpResponseRedirect(reverse('ad_detail', args=[ad_pk]))
-    # return render(request, 'catalog/ad_detail.html', context)
 
 def cancel_request (request, ad_pk):
     cur_ad = get_object_or_404(Ad, id=ad_pk)

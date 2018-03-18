@@ -45,4 +45,7 @@
     <button type="submit" class="btn btn-danger">Cancel Request</button>
   </a>
   {% endif %}
+  {% if not request.user.is_authenticated %}
+    Login to be able to borrow this item
+  {% endif %}
 {% endblock %}
