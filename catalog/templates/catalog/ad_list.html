@@ -3,9 +3,12 @@
 
 {% block styles %}
 <link rel="stylesheet" href="{% static 'catalog/table_styles.css' %}">
-<style media="screen">
+<style>
 .fav_color {
   color: red;
+}
+.unfav_color {
+  color: black;
 }
 </style>
 
@@ -20,9 +23,9 @@ $(document).ready(function(){
   // Sort Ads by Date Posted initially
   $("#myTable").tablesorter( {sortList: [[3,1]]} );
 
-  $(".fav").click(function() {
-    $(this).toggleClass("fav_color");
-  });
+  // $(".fav").click(function() {
+  //   $(this).toggleClass("fav_color");
+  // });
 });
 
 </script>
@@ -37,7 +40,7 @@ $(document).ready(function(){
 <thead>
   <tr>
     <th><strong>Ad</strong></th>
-    <th><strong>Favourite?</strong></th>
+    <th><strong>Add to Favourites</strong></th>
     <th><strong>Price</strong></th>
     <th><strong>Location</strong></th>
     <th><strong>Date Posted</strong></th>
@@ -47,7 +50,11 @@ $(document).ready(function(){
   {% for ad in ad_list %}
   <tr>
     <td><a href="{{ ad.get_absolute_url }}">{{ ad.title }}</a></td>
-    <td><span class="fav glyphicon glyphicon-heart"></span></td>
+    <td>
+      <a href="{{ ad.update_fav_url }}">
+        <span type="button" class="{% if ad.title in fav_list %} fav_color {% else %} unfav_color {% endif %}glyphicon glyphicon-heart"></span>
+      </a>
+    </td>
     <td>${{ad.price}}</td>
     <td >{{ad.location}}</td>
     <td>{{ad.create_date}}</td>

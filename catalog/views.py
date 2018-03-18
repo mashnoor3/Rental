@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.views import generic
 from django.http import HttpResponseRedirect
 from django.urls import reverse, reverse_lazy
+from django.shortcuts import get_object_or_404
 
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic.edit import FormMixin
@@ -15,8 +16,18 @@ def index(request):
     return render(request,'index.html',context={})
 
 class AdListView(generic.ListView):
+    model = Ad
     # Get only active ads
-    queryset = Ad.objects.filter(loan_status='a')
+    def get_queryset(self):
+        return Ad.objects.filter(loan_status='a')
+    # def get_queryset(self):
+    #     return Ad.objects.filter(favourites=self.request.user.profile)
+
+    def get_context_data(self, **kwargs):
+        context = super(AdListView, self).get_context_data(**kwargs)
+        fav_list = Ad.objects.filter(favourites=self.request.user.profile).values_list('title', flat=True)
+        context['fav_list'] = fav_list
+        return context
 
 class UserAdsListView(LoginRequiredMixin,generic.ListView):
     template_name ='catalog/ad_list_user.html'
@@ -81,5 +92,13 @@ def get_ad_detail(request, ad_pk):
     context = {'fav_form':fav_form, 'ad':cur_ad, 'show_fav_form':show_fav_form}
     return render(request, 'catalog/ad_detail.html', context)
 
-def reqeust_borrow(request, ad_pk):
-    return render(request, 'catalog/ad_detail.html', {})
+def update_fav(request, ad_pk):
+    cur_ad = get_object_or_404(Ad, id=ad_pk)
+    if cur_ad:
+        fav_list = Ad.objects.filter(favourites=request.user.profile)
+        if cur_ad in fav_list:
+            cur_ad.favourites.remove(request.user.profile)
+        else:
+            cur_ad.favourites.add(request.user.profile)
+
+    return HttpResponseRedirect(reverse("ads"))

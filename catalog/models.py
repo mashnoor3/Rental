@@ -76,3 +76,6 @@ class Ad(models.Model):
 
     def get_delete_url(self):
         return reverse('ad_delete', args=[str(self.id)])
+
+    def update_fav_url(self):
+        return reverse('update_fav', args=[str(self.id)])
