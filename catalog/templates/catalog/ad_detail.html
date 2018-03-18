@@ -2,14 +2,31 @@
 {% load crispy_forms_tags %}
 {% load staticfiles %}
 
+{% block styles %}
+  <style>
+  .glyphicon {
+    font-size: 20px;
+  }
+  .request_color {
+    color: yellow;
+  }
+  .unrequest_color {
+    color: black;
+  }
+</style>
+{% endblock %}
 
 
 {% block content %}
   <h1>{{ad.title}}</h1>
 
-  <img src="{{ ad.ad_img.url }}" alt="no image uploaded" width="240" class="img-rounded">
-  <p><strong>Ad description:</strong> {{ ad.description }} </a></p>
-  <p><strong>Ad price:</strong> ${{ ad.price }} </a></p>
+  {% if ad.ad_img %}
+    <img src="{{ ad.ad_img.url }}" alt="no image uploaded" width="240" class="img-rounded">
+  {% else %}
+    <p>No image uploaded</p>
+  {% endif %}
+  <p><strong>Description:</strong> {{ ad.description }} </a></p>
+  <p><strong>Price:</strong> ${{ ad.price }} </a></p>
 
   {% if show_fav_form %}
   <form action="" method="post">
@@ -18,10 +35,14 @@
       <input class="btn btn-default" name="mashnoor_name" type="submit" value="Submit" />
   </form>
   {% endif %}
-
+  {% if show_request %}
+    <a href="{{ ad.request_ad_url }}">
+      <button type="submit" class="btn btn-success">Request Item</button>
+    </a>
+  {% endif %}
+  {% if show_unrequest %}
+  <a href="{{ ad.cancel_request }}">
+    <button type="submit" class="btn btn-danger">Cancel Request</button>
+  </a>
+  {% endif %}
 {% endblock %}
-
-<!--
-action speficies which url to send form data to
-blank action "" sends to current url
--->

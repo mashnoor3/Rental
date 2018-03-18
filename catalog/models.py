@@ -36,11 +36,11 @@ class Ad(models.Model):
 
     renter = models.ForeignKey(Profile, on_delete=models.SET_NULL, null=True, blank=False, related_name='my_ads')
 
-    ad_img = models.ImageField(upload_to="ad_images", blank=True, default="ad_images/no_img.png")
+    ad_img = models.ImageField(upload_to="ad_images", blank=True, null=True,  default="ad_images/no_img.png")
 
     # Multiple people can request to borrow
     add_requestor = models.BooleanField(default=False)
-    borrow_requests = models.ManyToManyField(Profile, blank=True)
+    borrow_requests = models.ManyToManyField(Profile, blank=True,  related_name='requests')
     # Only one person can be borrower
     # borrower = models.ForeignKey(Profile, on_delete=models.SET_NULL, null=True, blank=True, related_name='borrower')
 
@@ -79,3 +79,9 @@ class Ad(models.Model):
 
     def update_fav_url(self):
         return reverse('update_fav', args=[str(self.id)])
+
+    def request_ad_url(self):
+        return reverse('request_ad', args=[str(self.id)])
+
+    def cancel_request(self):
+        return reverse('cancel_request', args=[str(self.id)])

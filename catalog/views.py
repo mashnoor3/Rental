@@ -38,7 +38,7 @@ class UserAdsListView(LoginRequiredMixin,generic.ListView):
 
 class AdCreate(LoginRequiredMixin, generic.CreateView):
     model = Ad
-    fields = ['title', 'description', 'location', 'category', 'loan_duration', 'price']
+    fields = ['title', 'description', 'location', 'category', 'loan_duration', 'price', 'ad_img']
 
     def form_valid(self, form):
         self.object = form.save(commit=False)
@@ -48,7 +48,7 @@ class AdCreate(LoginRequiredMixin, generic.CreateView):
 
 class AdUpdateView(LoginRequiredMixin, generic.UpdateView):
     model = Ad
-    fields = ['title', 'description', 'location', 'category', 'loan_duration', 'price']
+    fields = ['title', 'description', 'location', 'category', 'loan_duration', 'price', 'ad_img']
     # To override default update page, uncomment line below
     template_name = "catalog/ad_update.html"
 
@@ -63,20 +63,24 @@ class AdDeleteView(DeleteView):
 def get_ad_detail(request, ad_pk):
     cur_ad = Ad.objects.filter(id=ad_pk).get()
 
-    show_fav_form = True
-    if cur_ad.renter == request.user.profile:
-        show_fav_form = False
+    show_request = False
+    show_unrequest = False
+    if not (cur_ad.renter == request.user.profile):
+        request_list = Ad.objects.filter(borrow_requests=request.user.profile)
+        if cur_ad in request_list:
+            show_unrequest = True
+        else:
+            show_request = True
 
     if request.method == 'POST':
-
-        fav_form= FavForm(request.POST)
-        print(fav_form)
-        if fav_form.is_valid():
-            pass
+        # fav_form= FavForm(request.POST)
+        # print(fav_form)
+        # if fav_form.is_valid():
+        pass
     else:
-        fav_form= FavForm(instance=cur_ad)
-
-    context = {'fav_form':fav_form, 'ad':cur_ad, 'show_fav_form':show_fav_form}
+        # fav_form= FavForm(instance=cur_ad)
+        pass
+    context = {'ad':cur_ad, 'show_request':show_request, 'show_unrequest':show_unrequest}
     return render(request, 'catalog/ad_detail.html', context)
 
 def update_fav(request, ad_pk):
@@ -89,3 +93,23 @@ def update_fav(request, ad_pk):
             cur_ad.favourites.add(request.user.profile)
 
     return HttpResponseRedirect(reverse("ads"))
+
+def add_request (request, ad_pk):
+    cur_ad = get_object_or_404(Ad, id=ad_pk)
+    if cur_ad:
+        # request_list = Ad.objects.filter(borrow_requests=request.user.profile)
+        # print(request_list)
+        # if cur_ad in request_list:
+            # cur_ad.borrow_requests.remove(request.user.profile)
+        # else:
+        cur_ad.borrow_requests.add(request.user.profile)
+    context = {'ad':cur_ad,}
+    return HttpResponseRedirect(reverse('ad_detail', args=[ad_pk]))
+    # return render(request, 'catalog/ad_detail.html', context)
+
+def cancel_request (request, ad_pk):
+    cur_ad = get_object_or_404(Ad, id=ad_pk)
+    if cur_ad:
+        cur_ad.borrow_requests.remove(request.user.profile)
+    context = {'ad':cur_ad,}
+    return HttpResponseRedirect(reverse('ad_detail', args=[ad_pk]))
