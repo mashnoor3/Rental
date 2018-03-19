@@ -9,6 +9,7 @@ urlpatterns = [
     path('ad/<uuid:ad_pk>', views.get_ad_detail, name='ad_detail'),
     path('ad/<uuid:ad_pk>/fav', views.update_fav, name='update_fav'),
     path('ad/<uuid:ad_pk>/request', views.add_request, name='request_ad'),
+    path('ad/<uuid:ad_pk>/manage_requests', views.manage_requests, name='manage_requests'),
     path('ad/<uuid:ad_pk>/cancel_request', views.cancel_request, name='cancel_request'),
     path('ad/<uuid:ad_pk>/update', views.AdUpdateView.as_view(), name='ad_update'),
     path('ad/<uuid:ad_pk>/delete', views.AdDeleteView.as_view(), name='ad_delete'),

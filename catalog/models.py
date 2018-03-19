@@ -51,7 +51,7 @@ class Ad(models.Model):
     LOAN_STATUS = (
         ('a', 'Available'),
         ('o', 'On loan'),
-        ('r', 'Reserved'),
+        ('c', 'Completed'),
     )
     loan_status = models.CharField(max_length=1, choices=LOAN_STATUS, blank=True, default='a', help_text='Tool availability')
 
@@ -85,3 +85,6 @@ class Ad(models.Model):
 
     def cancel_request(self):
         return reverse('cancel_request', args=[str(self.id)])
+
+    def manage_requests(self):
+        return reverse('manage_requests', args=[str(self.id)])

@@ -122,3 +122,8 @@ def cancel_request (request, ad_pk):
         cur_ad.borrow_requests.remove(request.user.profile)
     context = {'ad':cur_ad,}
     return HttpResponseRedirect(reverse('ad_detail', args=[ad_pk]))
+
+def manage_requests (request, ad_pk):
+    cur_ad = get_object_or_404(Ad, id=ad_pk)
+    context = {'ad':cur_ad}
+    return render(request, 'catalog/manage_requests.html', context)

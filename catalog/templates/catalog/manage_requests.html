@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<h2>Requests for: {{ad.title}}</h2>
+{% if ad.borrow_requests.count == 0  %}
+  <p>No one wants to borrow this. Sorry :( </p>
+{% else %}
+  {% for request in ad.borrow_requests.all %}
+    <li>{{request}}</li>
+  {% endfor %}
+{% endif %}
+{% endblock %}

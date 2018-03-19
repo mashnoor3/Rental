@@ -12,7 +12,7 @@
 {% block content %}
 
 <div class="col-sm-6">
-  <h1>My Ads</h1>
+  <h2>Active Ads</h2>
   {% if my_ads %}
   <table class="table">
   <thead>
@@ -20,16 +20,18 @@
       <th><strong>Ad</strong></th>
       <th><strong>Loan Status</strong></th>
       <th><strong>Delete</strong></th>
-      <th><strong>Requests</strong></th>
+      <th><strong>Borrow Requests</strong></th>
     </tr>
   </thead>
   <tbody>
     {% for ad in my_ads %}
     <tr>
-      <td><a href="{{ ad.get_update_url }}">{{ ad.title }}</a></td>
-      <td>{{ ad.get_loan_status_display }}</td>
-      <td><a href="{{ ad.get_delete_url }}"><span type="button" class="red_color glyphicon glyphicon-remove"></span></a></td>
-      <td>{{ad.borrow_requests.all.count}}</td>
+      {% if ad.loan_status == 'a' %}
+        <td><a href="{{ ad.get_update_url }}">{{ ad.title }}</a></td>
+        <td>{{ ad.get_loan_status_display }}</td>
+        <td><a href="{{ ad.get_delete_url }}"><span type="button" class="red_color glyphicon glyphicon-remove"></span></a></td>
+        <td><a href="{{ ad.manage_requests }}">{{ad.borrow_requests.all.count}}</a></td>
+      {% endif %}
     </tr>
     {% endfor %}
   </tbody>
@@ -37,6 +39,29 @@
   {% else %}
     <p>You do not have any ads</p>
   {% endif %}
+
+  <h2>On Loan and Completed Ads</h2>
+  <table class="table">
+  <thead>
+    <tr>
+      <th><strong>Ad</strong></th>
+      <th><strong>Loan Status</strong></th>
+      <th><strong>Delete</strong></th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for ad in my_ads %}
+    <tr>
+      {% if not ad.loan_status == 'a' %}
+        <td><a href="{{ ad.get_update_url }}">{{ ad.title }}</a></td>
+        <td>{{ ad.get_loan_status_display }}</td>
+        <td><a href="{{ ad.get_delete_url }}"><span type="button" class="red_color glyphicon glyphicon-remove"></span></a></td>
+      {% endif %}
+    </tr>
+    {% endfor %}
+  </tbody>
+  </table>
+
 </div>
 
 {% endblock %}
