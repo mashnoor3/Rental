@@ -127,3 +127,8 @@ def manage_requests (request, ad_pk):
     cur_ad = get_object_or_404(Ad, id=ad_pk)
     context = {'ad':cur_ad}
     return render(request, 'catalog/manage_requests.html', context)
+
+def accept_request (request, ad_pk):
+    cur_ad = get_object_or_404(Ad, id=ad_pk)
+    context = {'ad':cur_ad}
+    return render(request, 'catalog/accept_request.html', context)

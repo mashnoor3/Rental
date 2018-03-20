@@ -12,7 +12,7 @@
 {% block content %}
 
 <div class="col-sm-6">
-  <h2>Active Ads</h2>
+  <h2>My Active Ads</h2>
   {% if my_ads %}
   <table class="table">
   <thead>
@@ -40,13 +40,14 @@
     <p>You do not have any ads</p>
   {% endif %}
 
-  <h2>On Loan and Completed Ads</h2>
+  <h2>My On Loan and Completed Ads</h2>
   <table class="table">
   <thead>
     <tr>
       <th><strong>Ad</strong></th>
       <th><strong>Loan Status</strong></th>
       <th><strong>Delete</strong></th>
+      <th>Loaned To</th>
     </tr>
   </thead>
   <tbody>
@@ -56,6 +57,11 @@
         <td><a href="{{ ad.get_update_url }}">{{ ad.title }}</a></td>
         <td>{{ ad.get_loan_status_display }}</td>
         <td><a href="{{ ad.get_delete_url }}"><span type="button" class="red_color glyphicon glyphicon-remove"></span></a></td>
+        {% if ad.borrower %}
+          <td>{{ad.borrower}}</td>
+        {% else %}
+          <td>No one</td>
+        {% endif %}
       {% endif %}
     </tr>
     {% endfor %}

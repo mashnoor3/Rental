@@ -1,13 +1,34 @@
 {% extends "base.html" %}
 {% load crispy_forms_tags %}
 
+{% block styles %}
+<style>
+.green_color {
+  color: #008000;
+}
+</style>
+{% endblock %}
+
 {% block content %}
 <h2>Requests for: {{ad.title}}</h2>
 {% if ad.borrow_requests.count == 0  %}
   <p>No one wants to borrow this. Sorry :( </p>
 {% else %}
-  {% for request in ad.borrow_requests.all %}
-    <li>{{request}}</li>
-  {% endfor %}
+  <table class="table">
+    <thead>
+      <tr>
+        <th><strong>Requester</strong></th>
+        <th><strong>Accept/Reject</strong></th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for requester in ad.borrow_requests.all %}
+        <tr>
+            <td>{{requester}}</td>
+            <td><a href="{{ ad.accept_request }}"><span class="green_color glyphicon glyphicon-ok"></span></a></td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
 {% endif %}
 {% endblock %}

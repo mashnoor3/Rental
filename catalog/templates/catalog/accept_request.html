@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="col-sm-6 col-sm-offset-3">
+  <form action="" method="POST">
+    {% csrf_token %}
+    <p>Are you sure you want to delete: <strong>{{object.title}}</strong></p>
+    <input type="submit"  value="Confirm" class="btn btn-warning">
+    <a href="{% url 'my_ads' %}" class="btn btn-default">Cancel</a>
+  </form>
+</div>
+{% endblock %}

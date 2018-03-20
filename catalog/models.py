@@ -42,7 +42,7 @@ class Ad(models.Model):
     add_requestor = models.BooleanField(default=False)
     borrow_requests = models.ManyToManyField(Profile, blank=True,  related_name='borrow_requests')
     # Only one person can be borrower
-    # borrower = models.ForeignKey(Profile, on_delete=models.SET_NULL, null=True, blank=True, related_name='borrower')
+    borrower = models.ForeignKey(Profile, on_delete=models.SET_NULL, null=True, blank=True, related_name='borrower')
 
     location = models.CharField(max_length=100)
     # By design an Ad can only belong to one category. Later change to ManyToManyField to allow one ad to have multiple categories
@@ -88,3 +88,6 @@ class Ad(models.Model):
 
     def manage_requests(self):
         return reverse('manage_requests', args=[str(self.id)])
+
+    def accept_request(self):
+        return reverse('accept_request', args=[str(self.id)])
