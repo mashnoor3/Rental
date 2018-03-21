@@ -90,4 +90,4 @@ class Ad(models.Model):
         return reverse('manage_requests', args=[str(self.id)])
 
     def accept_request(self):
-        return reverse('accept_request', args=[str(self.id)])
+        return reverse('accept_request', kwargs={"ad_pk":str(self.id)})
