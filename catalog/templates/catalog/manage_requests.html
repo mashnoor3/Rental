@@ -28,7 +28,7 @@
             <td>
               <form action="" method="POST">
                 {% csrf_token %}
-                  <button onclick="return confirm('Are you you want to accept this request?')" class="btn btn-success" name="requester_profile" value="{{requester}}">Accept</button>
+                  <button onclick="return confirm('Are you you want to accept this request?')" class="btn btn-success" name="requester_profile_id" value="{{requester.id}}">Accept</button>
               </form>
             </td>
         </tr>

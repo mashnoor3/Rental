@@ -127,21 +127,13 @@ def cancel_request (request, ad_pk):
 def manage_requests (request, ad_pk):
     cur_ad = get_object_or_404(Ad, id=ad_pk)
     if request.method == 'POST':
-        print("lalalal")
-        print(request.POST)
-        print(request.POST['requester_profile'])
-        his_prof = Profile.objects.filter(user='mash2').get()
-        print(his_prof.id)
-    context = {'ad':cur_ad}
-    return render(request, 'catalog/manage_requests.html', context)
+        # Need the borroer id to set foreign key relation
+        cur_ad.borrower_id = request.POST['requester_profile_id']
+        cur_ad.loan_status = 'o'
+        cur_ad.save()
+        return HttpResponseRedirect(reverse('my_ads'))
+    else:
+        return render(request, 'catalog/manage_requests.html', {'ad':cur_ad})
 
 def accept_request (request, ad_pk):
-    # cur_ad = get_object_or_404(Ad, id=ad_pk)
-    cur_ad = Ad.objects.filter(id=ad_pk).get()
-    if cur_ad:
-        # Set foreign key relationship by using Requestor's profile id
-        # cur_ad.borrower_id = 2
-        # cur_ad.loan_status = 'o'
-        cur_ad.save()
-    # return render(request, 'catalog/accept_request.html', context)
     return HttpResponseRedirect(reverse('my_ads'))
