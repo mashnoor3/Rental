@@ -27,7 +27,7 @@
 				<div class="row">
 			{% endif %}
 						<div class="card">
-							<img width="240" class="center-block" src="{% static 'catalog/automobiles.jpg' %}" alt="Photo not available">
+							<a href="{% url 'ads', %}"><img width="240" class="center-block" src="{% static 'catalog/automobiles.jpg' %}" alt="Photo not available"></a>
 							<p class="card-text">{{c}}</p>
 						</div>
 			{% if forloop.counter0 in row_end %}

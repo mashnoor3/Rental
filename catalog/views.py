@@ -25,8 +25,13 @@ class AdListView(generic.ListView):
     model = Ad
     # Get only active ads
     def get_queryset(self):
-        return Ad.objects.filter(loan_status='a')
-        return Ad.objects.filter(favourites=self.request.user.profile)
+        print(str(self.kwargs['category_id']))
+        if self.kwargs:
+            return Ad.objects.filter(category=2)
+            # return Ad.objects.filter(loan_status='a')
+        else:
+            return Ad.objects.filter(loan_status='a')
+        # return Ad.objects.filter(favourites=self.request.user.profile)
 
     def get_context_data(self, **kwargs):
         context = super(AdListView, self).get_context_data(**kwargs)
@@ -34,6 +39,9 @@ class AdListView(generic.ListView):
             fav_list = Ad.objects.filter(favourites=self.request.user.profile).values_list('title', flat=True)
             context['fav_list'] = fav_list
         return context
+
+def catalog_list_view(request, cat):
+    pass
 
 class UserAdsListView(LoginRequiredMixin,generic.ListView):
     template_name ='catalog/ad_list_user.html'
