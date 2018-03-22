@@ -9,25 +9,26 @@ from django.views.generic.edit import FormMixin
 
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 
-from .models import Ad
+from .models import Ad, Category
 from profiles.models import Profile
 from . forms import FavForm
 
 from django.contrib.auth.decorators import login_required
 
 def index(request):
-    return render(request,'index.html',context={})
+    # Create list from first element in tuple
+    catagories = [ c[0] for c in Category.CATEGORY_CHOICES ]
+    context = {"categories":catagories, 'num_cols':range(3), 'rows':[0,3,6], 'row_end':[2,5,8]}
+    return render(request,'index.html',context)
 
 class AdListView(generic.ListView):
     model = Ad
     # Get only active ads
     def get_queryset(self):
         return Ad.objects.filter(loan_status='a')
-    # def get_queryset(self):
-    #     return Ad.objects.filter(favourites=self.request.user.profile)
+        return Ad.objects.filter(favourites=self.request.user.profile)
 
     def get_context_data(self, **kwargs):
-        print ("hellooooo")
         context = super(AdListView, self).get_context_data(**kwargs)
         if not self.request.user.id == None:
             fav_list = Ad.objects.filter(favourites=self.request.user.profile).values_list('title', flat=True)

@@ -10,6 +10,7 @@
 {% endblock %}
 
 {% block content %}
+<div class="col-sm-4">
 <h2>Requests for: {{ad.title}}</h2>
 {% if ad.borrow_requests.count == 0  %}
   <p>No one wants to borrow this. Sorry :( </p>
@@ -18,7 +19,7 @@
     <thead>
       <tr>
         <th><strong>Requester</strong></th>
-        <th><strong>Accept/Reject</strong></th>
+        <th><strong>Accept Request</strong></th>
       </tr>
     </thead>
     <tbody>
@@ -36,6 +37,7 @@
     </tbody>
   </table>
 {% endif %}
+<div class="col-sm-4">
 {% endblock %}
 
 

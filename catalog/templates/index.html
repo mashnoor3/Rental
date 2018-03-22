@@ -13,7 +13,6 @@
 	  margin-bottom: 2rem;
 	  border: 0;
 	}
-	}
 </style>
 {% endblock %}
 
@@ -22,15 +21,37 @@
 <a href="#"> <img src="{% static 'catalog/home_page_sales.jpg' %}" class='img-responsive'> </a>
 
 <div class="album text-muted">
-	<div class="container">
-
-    <div class="row">
-			<div class="card">
-				<img class="center-block" src="{% static 'img/book1.jpg' %}" alt="Photo not available">
-				<p class="card-text">Category </p>
-
-			</div>
-    </div>
-  </div>
+	<div align="center" class="container">
+		{% for c in categories %}
+			{% if forloop.counter0 in rows %}
+				<div class="row">
+			{% endif %}
+						<div class="card">
+							<img width="240" class="center-block" src="{% static 'catalog/automobiles.jpg' %}" alt="Photo not available">
+							<p class="card-text">{{c}}</p>
+						</div>
+			{% if forloop.counter0 in row_end %}
+				</div>
+			{% endif %}
+		{% endfor %}
+	</div>
 </div>
+
 {% endblock %}
+
+<!--
+<div class="album text-muted">
+	<div class="container">
+		{% for r in range %}
+			<div class="row">
+				{% for r in range %}
+				<div class="card">
+					<img class="center-block" src="{% static 'img/book1.jpg' %}" alt="Photo not available">
+					<p class="card-text">Title: </p>
+				</div>
+				{% endfor %}
+			</div>
+		{% endfor %}
+	</div>
+</div>
+-->

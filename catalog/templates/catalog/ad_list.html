@@ -39,17 +39,19 @@ $(document).ready(function(){
 <table id="myTable" class="table tablesorter">
 <thead>
   <tr>
-    <th><strong>Ad</strong></th>
-    <th><strong>Add to Favourites</strong></th>
-    <th><strong>Price</strong></th>
-    <th><strong>Location</strong></th>
-    <th><strong>Date Posted</strong></th>
+    <th>Ad</th>
+    <th>Category</th>
+    <th>Add to Favourites</th>
+    <th>Price</th>
+    <th>Location</th>
+    <th>Date Posted</th>
   </tr>
 </thead>
 <tbody>
   {% for ad in ad_list %}
   <tr>
     <td><a href="{{ ad.get_absolute_url }}">{{ ad.title }}</a></td>
+    <td>{{ad.category}}</td>
     <td>
       {% if request.user.is_authenticated %}
       <a href="{{ ad.update_fav_url }}">
