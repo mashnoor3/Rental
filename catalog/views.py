@@ -25,12 +25,14 @@ class AdListView(generic.ListView):
     model = Ad
     # Get only active ads
     def get_queryset(self):
-        print(str(self.kwargs['category_id']))
         if self.kwargs:
-            return Ad.objects.filter(category=2)
+            print(str(self.kwargs['category_id']))
+            m=str(self.kwargs['category_id'])
+            return Ad.objects.filter(category__category_name__icontains=m)
             # return Ad.objects.filter(loan_status='a')
         else:
             return Ad.objects.filter(loan_status='a')
+        # return Ad.objects.filter(loan_status='a')
         # return Ad.objects.filter(favourites=self.request.user.profile)
 
     def get_context_data(self, **kwargs):
