@@ -21,14 +21,21 @@
 <a href="#"> <img src="{% static 'catalog/home_page_sales.jpg' %}" class='img-responsive'> </a>
 
 <div class="album text-muted">
-	<div align="center" class="container">
-		{% for c in categories %}
+	<div align="center">
+		<!-- use dicsort to order alphabetically -->
+		{% for c in categories|dictsort:"category_name" %}
 			{% if forloop.counter0 in rows %}
 				<div class="row">
 			{% endif %}
 						<div class="card">
-							<a href="{% url 'ads' category=c %}"><img width="240" class="center-block" src="{% static 'catalog/automobiles.jpg' %}" alt="Photo not available"></a>
-							<p class="card-text">{{c}} {{forloop.counter0}}</p>
+							<a href="{% url 'ads' category=c %}">
+								{% if c.category_img %}
+							    <img src="{{ c.category_img.url }}" alt="no image uploaded"  height="150" class="img-rounded">
+							  {% else %}
+							    <p>No image uploaded</p>
+							  {% endif %}
+							</a>
+							<h4>{{c.category_name}}</h4>
 						</div>
 			{% if forloop.counter0 in row_end %}
 				</div>
@@ -40,18 +47,5 @@
 {% endblock %}
 
 <!--
-<div class="album text-muted">
-	<div class="container">
-		{% for r in range %}
-			<div class="row">
-				{% for r in range %}
-				<div class="card">
-					<img class="center-block" src="{% static 'img/book1.jpg' %}" alt="Photo not available">
-					<p class="card-text">Title: </p>
-				</div>
-				{% endfor %}
-			</div>
-		{% endfor %}
-	</div>
-</div>
+<img width="240" class="center-block" src="{% static 'catalog/automobiles.jpg' %}" alt="Photo not available">
 -->

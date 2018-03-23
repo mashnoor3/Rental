@@ -16,8 +16,8 @@ from . forms import FavForm
 from django.contrib.auth.decorators import login_required
 
 def index(request):
-    # Create list from first element in tuple
-    catagories = [ c[0] for c in Category.CATEGORY_CHOICES ]
+    # Query all categories
+    catagories = Category.objects.all()
     context = {"categories":catagories, 'num_cols':range(3), 'rows':[0,3,6], 'row_end':[2,5,8]}
     return render(request,'index.html',context)
 

@@ -23,6 +23,8 @@ class Category(models.Model):
 
     category_name = models.CharField(max_length=20, choices=CATEGORY_CHOICES, blank=True, default='Other', help_text="Choose a cateogry (e.g. Moving, Gardening etc.)", unique=True)
 
+    category_img = models.ImageField(upload_to="catalog_images", blank=True, null=True,  default="catalog_images/no_img.png")
+
     def __str__(self):
         return self.category_name
 
