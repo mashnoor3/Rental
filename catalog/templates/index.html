@@ -22,9 +22,9 @@
 
 <div class="album text-muted">
 	<div align="center">
-		<!-- use dicsort to order alphabetically -->
+		<!-- Use dicsort to order alphabetically -->
 		{% for c in categories|dictsort:"category_name" %}
-			{% if forloop.counter0 in rows %}
+			{% if forloop.counter0 in row_start %}
 				<div class="row">
 			{% endif %}
 						<div class="card">
@@ -45,7 +45,3 @@
 </div>
 
 {% endblock %}
-
-<!--
-<img width="240" class="center-block" src="{% static 'catalog/automobiles.jpg' %}" alt="Photo not available">
--->

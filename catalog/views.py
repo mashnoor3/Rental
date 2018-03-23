@@ -11,14 +11,13 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 
 from .models import Ad, Category
 from profiles.models import Profile
-from . forms import FavForm
 
 from django.contrib.auth.decorators import login_required
 
 def index(request):
     # Query all categories
     catagories = Category.objects.all()
-    context = {"categories":catagories, 'num_cols':range(3), 'rows':[0,3,6], 'row_end':[2,5,8]}
+    context = {"categories":catagories, 'num_cols':range(3), 'row_start':[0,3,6], 'row_end':[2,5,8]}
     return render(request,'index.html',context)
 
 class AdListView(generic.ListView):
@@ -91,14 +90,6 @@ def get_ad_detail(request, ad_pk):
         else:
             show_request = True
 
-    if request.method == 'POST':
-        # fav_form= FavForm(request.POST)
-        # print(fav_form)
-        # if fav_form.is_valid():
-        pass
-    else:
-        # fav_form= FavForm(instance=cur_ad)
-        pass
     context = {'ad':cur_ad, 'show_request':show_request, 'show_unrequest':show_unrequest}
     return render(request, 'catalog/ad_detail.html', context)
 
@@ -116,11 +107,6 @@ def update_fav(request, ad_pk):
 def add_request (request, ad_pk):
     cur_ad = get_object_or_404(Ad, id=ad_pk)
     if cur_ad:
-        # request_list = Ad.objects.filter(borrow_requests=request.user.profile)
-        # print(request_list)
-        # if cur_ad in request_list:
-            # cur_ad.borrow_requests.remove(request.user.profile)
-        # else:
         cur_ad.borrow_requests.add(request.user.profile)
     context = {'ad':cur_ad,}
     return HttpResponseRedirect(reverse('ad_detail', args=[ad_pk]))
