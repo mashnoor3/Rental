@@ -26,7 +26,7 @@ class AdListView(generic.ListView):
     def get_queryset(self):
         if self.kwargs:
             category = self.kwargs['category']
-            return Ad.objects.filter(category__category_name__icontains=category)
+            return Ad.objects.filter(category__category_name__icontains=category).filter(loan_status='a')
         else:
             return Ad.objects.filter(loan_status='a')
         # return Ad.objects.filter(favourites=self.request.user.profile)

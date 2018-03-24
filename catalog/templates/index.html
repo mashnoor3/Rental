@@ -17,31 +17,34 @@
 {% endblock %}
 
 {% block content %}
-<h1>Welcome Friends</h1>
-<a href="#"> <img src="{% static 'catalog/home_page_sales.jpg' %}" class='img-responsive'> </a>
-
-<div class="album text-muted">
-	<div align="center">
-		<!-- Use dicsort to order alphabetically -->
-		{% for c in categories|dictsort:"category_name" %}
-			{% if forloop.counter0 in row_start %}
-				<div class="row">
-			{% endif %}
-						<div class="card">
-							<a href="{% url 'ads' category=c %}">
-								{% if c.category_img %}
-							    <img src="{{ c.category_img.url }}" alt="no image uploaded"  height="150" class="img-rounded">
-							  {% else %}
-							    <p>No image uploaded</p>
-							  {% endif %}
-							</a>
-							<h4>{{c.category_name}}</h4>
-						</div>
-			{% if forloop.counter0 in row_end %}
-				</div>
-			{% endif %}
-		{% endfor %}
+<div class="col-sm-12">
+	{% if not request.user.is_authenticated %}
+		<h2>Welcome, login to start borrowing and renting items!</h2>
+	{% else %}
+		<h2>Hey {{ request.user.profile }}, have a look around!</h2>
+	{% endif %}
+	<div class="album text-muted">
+		<div align="center">
+			<!-- Use dicsort to order alphabetically -->
+			{% for c in categories|dictsort:"category_name" %}
+				{% if forloop.counter0 in row_start %}
+					<div class="row">
+				{% endif %}
+							<div class="card">
+								<a href="{% url 'ads' category=c %}">
+									{% if c.category_img %}
+								    <img src="{{ c.category_img.url }}" alt="no image uploaded"  height="150" class="img-rounded">
+								  {% else %}
+								    <p>No image uploaded</p>
+								  {% endif %}
+								</a>
+								<h4>{{c.category_name}}</h4>
+							</div>
+				{% if forloop.counter0 in row_end %}
+					</div>
+				{% endif %}
+			{% endfor %}
+		</div>
 	</div>
 </div>
-
 {% endblock %}
